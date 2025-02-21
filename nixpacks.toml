@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ['nodejs', 'yarn']
+
+[phases.build]
+cmds = ['yarn install', 'yarn build']
+
+[variables]
+PAYLOAD_SECRET = 'fwrwer34243'
+MONGODB_URL = 'mongodb://root:acdpOerZwacnjBD9JKoU0EUQUtcvD0xtEXFE0IFDHCEtQuHb0Q9P85j3VNyqCKWD@5.78.98.39:5433/?directConnection=true'
+NEXT_PUBLIC_SERVER_URL = 'http://localhost:3000'
+RESEND_API_KEY = 're_jeKn1Pq7_4B7qFTLD5BvzfZHE1tUBHJ5a'
