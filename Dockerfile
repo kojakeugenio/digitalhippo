@@ -24,14 +24,14 @@ ENV MONGODB_URL=mongodb://root:acdpOerZwacnjBD9JKoU0EUQUtcvD0xtEXFE0IFDHCEtQuHb0
 ENV NEXT_PUBLIC_SERVER_URL=http://localhost:3000
 ENV RESEND_API_KEY=re_jeKn1Pq7_4B7qFTLD5BvzfZHE1tUBHJ5a
 
-# Clean and build steps in correct order
+# Clean and build steps in correct order with TypeScript path resolution
 RUN rm -rf dist && \
     rm -rf src/payload-types.ts && \
     yarn build:payload && \
     yarn generate:types && \
-    yarn build:server && \
+    NODE_PATH=./ yarn build:server && \
     yarn copyfiles && \
-    PAYLOAD_CONFIG_PATH=dist/payload.config.js NEXT_BUILD=true node dist/server.js
+    NODE_PATH=./ PAYLOAD_CONFIG_PATH=dist/payload.config.js NEXT_BUILD=true node dist/server.js
 
 # Stage 3: Runner
 FROM node:18-alpine AS runner
@@ -50,6 +50,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/src/payload-types.ts ./src/payload-types.ts
 
 # Create user for security
 RUN addgroup --system --gid 1001 nodejs

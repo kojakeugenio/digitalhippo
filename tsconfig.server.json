@@ -1,19 +1,28 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "CommonJS",
     "outDir": "dist",
     "noEmit": false,
     "jsx": "react-jsx",
-    "rootDir": "src",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "components/*": ["./src/components/*"],
+      "lib/*": ["./src/lib/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "trpc/*": ["./src/trpc/*"],
+      "config": ["./src/config/index"],
+      "get-payload": ["./src/get-payload"]
     }
   },
+  "include": ["src", "src/payload-types.ts"],
   "exclude": [
-    "tailwind.config.ts",
     "node_modules",
-    "src/payload-types.ts"
-  ],
-  "include": ["src"]
+    "dist",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "src/**/*.spec.tsx",
+    "src/**/*.test.tsx",
+    "tailwind.config.ts"
+  ]
 }

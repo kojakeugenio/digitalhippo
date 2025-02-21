@@ -27,22 +27,22 @@
         "./src/*"
       ],
       "components/*": [
-        "src/components/*"
+        "./src/components/*"
       ],
       "lib/*": [
-        "src/lib/*"
+        "./src/lib/*"
       ],
       "hooks/*": [
-        "src/hooks/*"
+        "./src/hooks/*"
       ],
       "trpc/*": [
-        "src/trpc/*"
+        "./src/trpc/*"
       ],
       "config": [
-        "src/config/index"
+        "./src/config/index"
       ],
       "get-payload": [
-        "src/get-payload"
+        "./src/get-payload"
       ]
     },
     "noEmit": true
@@ -51,7 +51,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/payload-types.ts"
   ],
   "exclude": [
     "node_modules",
