@@ -4,7 +4,9 @@
     "module": "commonjs",
     "outDir": "dist",
     "noEmit": false,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "rootDir": "src"
   },
-  "exclude": ["tailwind.config.ts", "node_modules"]
+  "exclude": ["tailwind.config.ts", "node_modules"],
+  "include": ["src"]
 }

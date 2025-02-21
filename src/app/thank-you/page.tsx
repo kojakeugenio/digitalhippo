@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { cookies } from 'next/headers'
 import { getPayloadClient } from '@/get-payload'
 import { notFound, redirect } from 'next/navigation'
-import { Product, ProductFile, User } from '@/payload-types'
+import { Order, Product, ProductFile, User } from '@/payload-types'
 import { PRODUCT_CATEGORIES } from '@/config'
 import { formatPrice } from '@/lib/utils'
 import Link from 'next/link'
@@ -34,7 +34,7 @@ const ThankYouPage = async ({
     },
   })
 
-  const [order] = orders
+  const [order] = orders as unknown as Order[]
 
   if (!order) return notFound()
 
