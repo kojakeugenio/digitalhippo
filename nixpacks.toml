@@ -1,11 +1,27 @@
 [phases.setup]
-nixPkgs = ['nodejs', 'yarn']
+nixPkgs = ['nodejs', 'yarn', 'python3']
+
+[phases.install]
+cmds = ['yarn install --frozen-lockfile']
 
 [phases.build]
-cmds = ['yarn install', 'yarn build']
+cmds = [
+    'yarn generate:types',
+    'yarn build:payload',
+    'yarn build:server',
+    'yarn copyfiles',
+    'cross-env NODE_ENV=production PAYLOAD_CONFIG_PATH=dist/payload.config.js NEXT_BUILD=true node dist/server.js'
+]
+
+[start]
+cmd = 'cross-env NODE_ENV=production PAYLOAD_CONFIG_PATH=dist/payload.config.js node dist/server.js'
 
 [variables]
+NODE_ENV = 'production'
 PAYLOAD_SECRET = 'fwrwer34243'
 MONGODB_URL = 'mongodb://root:acdpOerZwacnjBD9JKoU0EUQUtcvD0xtEXFE0IFDHCEtQuHb0Q9P85j3VNyqCKWD@5.78.98.39:5433/?directConnection=true'
 NEXT_PUBLIC_SERVER_URL = 'http://localhost:3000'
 RESEND_API_KEY = 're_jeKn1Pq7_4B7qFTLD5BvzfZHE1tUBHJ5a'
+
+[nixpacks]
+channel = 'stable'

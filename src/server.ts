@@ -54,18 +54,30 @@ const start = async () => {
   })
 
   if (process.env.NEXT_BUILD) {
-    app.listen(PORT, async () => {
-      payload.logger.info(
-        'Next.js is building for production'
-      )
+    try {
+      app.listen(PORT, async () => {
+        payload.logger.info(
+          'Next.js is building for production'
+        )
 
-      // @ts-expect-error
-      await nextBuild(path.join(__dirname, '../'))
+        try {
+          // @ts-expect-error
+          await nextBuild(path.join(__dirname, '../'))
+          payload.logger.info('Next.js build completed successfully')
+          process.exit(0)
+        } catch (buildError) {
+          payload.logger.error('Next.js build failed:')
+          payload.logger.error(buildError)
+          process.exit(1)
+        }
+      })
 
-      process.exit()
-    })
-
-    return
+      return
+    } catch (error) {
+      payload.logger.error('Server failed to start for Next.js build:')
+      payload.logger.error(error)
+      process.exit(1)
+    }
   }
 
   const cartRouter = express.Router()
