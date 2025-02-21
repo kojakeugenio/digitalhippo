@@ -9,5 +9,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx"
-  }
+  },
+  "exclude": ["tailwind.config.ts", "node_modules"]
 }
