@@ -7,7 +7,10 @@ import { Product } from './payload-types'
 import { Resend } from 'resend'
 import { ReceiptEmailHtml } from './components/emails/ReceiptEmail'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Initialize Resend only if API key is available
+const resend = process.env.RESEND_API_KEY 
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null
 
 export const stripeWebhookHandler = async (
   req: express.Request,
@@ -98,14 +101,19 @@ export const stripeWebhookHandler = async (
 
     // send receipt
     try {
+      if (!resend) {
+        console.warn('Resend API key not found, skipping email send')
+        return res.status(200).send()
+      }
+      
       const data = await resend.emails.send({
         from: 'DigitalHippo <hello@joshtriedcoding.com>',
-        to: [user.email],
+        to: [user.email as string],
         subject:
           'Thanks for your order! This is your receipt.',
         html: ReceiptEmailHtml({
           date: new Date(),
-          email: user.email,
+          email: user.email as string,
           orderId: session.metadata.orderId,
           products: order.products as Product[],
         }),

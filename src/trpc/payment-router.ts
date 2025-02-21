@@ -8,6 +8,7 @@ import { TRPCError } from '@trpc/server'
 import { getPayloadClient } from '../get-payload'
 import { stripe } from '../lib/stripe'
 import type Stripe from 'stripe'
+import { Product } from '../payload-types'
 
 export const paymentRouter = router({
   createSession: privateProcedure
@@ -35,11 +36,13 @@ export const paymentRouter = router({
         Boolean(prod.priceId)
       )
 
+      const orderProducts = filteredProducts.map((prod: any) => prod.id)
+
       const order = await payload.create({
         collection: 'orders',
         data: {
           _isPaid: false,
-          products: filteredProducts.map((prod) => prod.id),
+          products: orderProducts,
           user: user.id,
         },
       })
@@ -49,7 +52,7 @@ export const paymentRouter = router({
 
       filteredProducts.forEach((product) => {
         line_items.push({
-          price: product.priceId!,
+          price: (product as any).priceId || '',
           quantity: 1,
         })
       })
