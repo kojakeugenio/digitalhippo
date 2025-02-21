@@ -5,8 +5,15 @@
     "outDir": "dist",
     "noEmit": false,
     "jsx": "react-jsx",
-    "rootDir": "src"
+    "rootDir": "src",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "exclude": ["tailwind.config.ts", "node_modules"],
+  "exclude": [
+    "tailwind.config.ts",
+    "node_modules",
+    "src/payload-types.ts"
+  ],
   "include": ["src"]
 }

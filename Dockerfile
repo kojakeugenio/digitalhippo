@@ -24,9 +24,11 @@ ENV MONGODB_URL=mongodb://root:acdpOerZwacnjBD9JKoU0EUQUtcvD0xtEXFE0IFDHCEtQuHb0
 ENV NEXT_PUBLIC_SERVER_URL=http://localhost:3000
 ENV RESEND_API_KEY=re_jeKn1Pq7_4B7qFTLD5BvzfZHE1tUBHJ5a
 
-# Build the application
-RUN yarn generate:types && \
+# Clean and build steps in correct order
+RUN rm -rf dist && \
+    rm -rf src/payload-types.ts && \
     yarn build:payload && \
+    yarn generate:types && \
     yarn build:server && \
     yarn copyfiles && \
     PAYLOAD_CONFIG_PATH=dist/payload.config.js NEXT_BUILD=true node dist/server.js
@@ -43,6 +45,7 @@ ENV RESEND_API_KEY=re_jeKn1Pq7_4B7qFTLD5BvzfZHE1tUBHJ5a
 
 # Copy built assets from builder stage
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/yarn.lock ./yarn.lock
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/dist ./dist

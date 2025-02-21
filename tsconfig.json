@@ -43,9 +43,6 @@
       ],
       "get-payload": [
         "src/get-payload"
-      ],
-      "payload-types": [
-        "src/payload-types"
       ]
     },
     "noEmit": true
@@ -57,6 +54,7 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }
